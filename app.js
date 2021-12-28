@@ -2,9 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mysql = require('mysql');
+const path = require('path');
+require('dotenv').config();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+
 
 var myConnection = mysql.createConnection({
     host: "bvpspd0l24sdpal9h7fl-mysql.services.clever-cloud.com",
@@ -12,7 +15,7 @@ var myConnection = mysql.createConnection({
     password: "80onmpmkdlIpowx9f5mm",
     database: "bvpspd0l24sdpal9h7fl",
     multipleStatements: true
-})
+});
 
 myConnection.connect((err)=>{
     if(!err)
@@ -21,7 +24,7 @@ myConnection.connect((err)=>{
     console.log("Connection to database failed");
 });
 
-app.use("/auth", require('./routes/authentication'));
+app.use("/auth", require('./routes/auth'));
 
 app.get('/',(req,res)=>{
     res.sendFile(__dirname+"/templates/rootPage.html");
