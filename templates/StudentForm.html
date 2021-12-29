@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOB SPACE-A job portal for graduates</title>
+    <link rel="stylesheet" href="css/StudentForm.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+   <!-- Compiled and minified JavaScript -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+    <div class="whole__form">
+        <div class="education">
+            <div class="education__head">Education</div>
+            <form class="col s12" method="post" action="/StudentForm">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="degree" name="degree" type="text" class="validate">
+                        <label for="degree">Degree</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input id="major" name="major" type="text" class="validate">
+                        <label for="major">Major</label>
+                      </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s6">
+                      <input id="university" name="university" type="text" class="validate">
+                      <label for="university">University</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input id="cgpa" name="cgpa" type="text" class="validate">
+                      <label for="cgpa">CGPA</label>
+                    </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                    <input id="degree" name="percentage" type="text" class="validate">
+                    <label for="degree">Percentage</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <input id="batch" name="batch" type="text" class="validate">
+                    <label for="batch">Batch</label>
+                  </div>
+            </div>
+            <button class="waves-effect waves-light btn aa" type="submit" name="button">Submit</button>
+            </form>
+        </div>
+        <div class="job__experience">
+          <div class="experience__head">Experience</div>
+          <form class="col s12" method="post" action="/StudentForm">
+              <div class="row">
+                  <div class="input-field col s6">
+                      <input id="curr_job" name="curr_job" type="text" class="validate">
+                      <label for="curr_job">Current Job</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input id="comp_name" name="comp_name" type="text" class="validate">
+                      <label for="comp_name">Company name</label>
+                    </div>
+
+              </div>
+              <div class="row">
+                  <div class="input-field col s6">
+                      <input id="start_d" name="start_d" type="date" class="datepicker">
+                      <label for="start_d"></label>
+                    </div>
+                  <div class="input-field col s6">
+                      <input id="end_d" name="end_d" type="date" class="datepicker">
+                      <label for="end_d"></label>
+                  </div>
+            </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="loc" name="loc" type="text" class="validate">
+              <label for="loc">Location</label>
+            </div>
+          </div>
+                <button class="waves-effect waves-light btn aa" type="submit" name="button">Submit</button>
+          </form>
+        </div>
+        <div class="skills">
+          <div class="skills__head">Skills</div>
+          <div class="chip__whole">
+            <!-- <div class="chips chips-placeholder" id="skilll">
+            </div> -->
+            <form class="col s12" method="post" action="/StudentForm">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="skill" type="text" class="validate" name="skill">
+              <label for="skill">Skills</label>
+                  </div>
+
+              </div>
+
+
+              <div class="file-field input-field">
+                <div class="btn">
+                  <span name="file">File</span>
+                  <input type="file">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" name="cv" placeholder="Upload your CV">
+                </div>
+              </div>
+              <button class="waves-effect waves-light btn aa" type="submit" name="button">Submit</button>
+            </form>
+          </div>
+        </div>
+    </div>
+</body>
+<script >
+
+
+    $('.chips').material_chip();
+    $('.chips-placeholder').material_chip({
+      placeholder: 'Enter your skills',
+  });
+</script>
+</html>

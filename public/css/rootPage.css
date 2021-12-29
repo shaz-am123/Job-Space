@@ -1,0 +1,416 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+*{
+  scroll-behavior: smooth;
+}
+/* Navbar */
+nav {
+  background: white;
+  height: 60px;
+  max-width: 100%;
+}
+label.logo {
+  /* font-family: 'Montserrat', sans-serif; */
+  font-size: 35px;
+  font-weight: bold;
+  line-height: 60px;
+  margin-left: 40px;
+}
+nav ul {
+  float: right;
+  margin-right: 50px;
+}
+nav ul li {
+  display: inline-block;
+  line-height: 60px;
+  margin: 0px 20px;
+}
+
+nav ul li a {
+  color: #94B3FD;
+  font-size: 18px;
+  text-decoration: none;
+  font-weight: bolder;
+}
+a.active,
+a:hover {
+  color: #44b3e2;
+  color: rgb(53, 52, 52);
+}
+.hamberger-btn {
+  font-size: 35px;
+  color: white;
+  float: right;
+  margin-right: 30px;
+  line-height: 60px;
+  cursor: pointer;
+  display: none;
+}
+#check {
+  display: none;
+}
+.joinup{
+  font-family: 'Montserrat', sans-serif;
+  background-color: #94B3FD;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  text-decoration: none;
+}
+
+/* FirstSection */
+.jobsearchtotal{
+  width: 100%;
+  display:flex;
+  align-items: center;
+  justify-content:center;
+  line-height:1.7;
+}
+.jobsearch{
+  width: auto;
+  max-height: 519px;
+  padding:0 10px;
+}
+.jobsearchtext{
+  display: flex;
+  padding:3rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.jobsearchtext .bigheading{
+  font-size:2rem;
+  font-weight: 500;
+}
+.jobsearchtext .smallheading{
+  /* align-items: left; */
+}
+
+.jobsearchtext .buttonmain{
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #94B3FD;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 20%;
+  opacity: 0.9;
+  text-decoration: none;
+}
+/* Community */
+.communitywhole{
+  padding:3rem;
+  margin: 8vh 0 5vh 0;
+}
+.communitywhole .communitytext{ 
+  font-size: 1.4rem;
+  margin:0 3vw;  
+  margin-bottom: 2rem;
+}
+  .communitywhole .communityimages{
+  display: flex;
+  justify-content: space-around;
+}
+/* Member */
+.memheading{
+  display:flex;
+  padding-top:10rem;
+  font-size: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+.numac{
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.totacpac{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.resac{
+  font-size: 1.3rem;
+}
+.icoac{
+  height: 4rem;
+  margin-bottom: 3rem;
+  /* max-width:2rem ; */
+}
+.fourachievements{
+  padding: 5rem 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* Testimonial */
+#testimonials{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width:100%;
+}
+.testimonial-heading{
+  letter-spacing: 1px;
+  margin: 30px 0px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.testimonial-heading span{
+  font-size: 1.3rem;
+  color: #252525;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.testimonial-box-container{
+  display: flex;
+  padding:5rem 0; 
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width:100%;
+}
+.testimonial-box{
+  width:500px;
+  box-shadow: 2px 2px 30px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 15px;
+  cursor: pointer;
+}
+.profile-img{
+  width:50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+.profile-img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.profile{
+  display: flex;
+  align-items: center;
+}
+.name-user{
+  display: flex;
+  flex-direction: column;
+}
+.name-user strong{
+  color: #3d3d3d;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+.name-user span{
+  color: #979797;
+  font-size: 0.8rem;
+}
+.reviews{
+  color: #f9d71c;
+}
+.box-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.client-comment p{
+  font-size: 0.9rem;
+  color: #4b4b4b;
+}
+.testimonial-box:hover{
+  transform: translateY(-10px);
+  transition: all ease 0.3s;
+}
+
+@media(max-width:1060px){
+  .testimonial-box{
+      width:45%;
+      padding: 10px;
+  }
+}
+@media(max-width:790px){
+  .testimonial-box{
+      width:100%;
+  }
+  .testimonial-heading h1{
+      font-size: 1.4rem;
+  }
+}
+@media(max-width:340px){
+  .box-top{
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+  }
+  .reviews{
+      margin-top: 10px;
+  }
+}
+::selection{
+  color: #ffffff;
+  background-color: #252525;
+}
+/*FOOTER*/
+
+/* .Footer__whole{
+    position:absolute;
+    top: 100%;
+} */
+.footer-pad{
+    text-align: left;
+}
+.list-unstyled li a{
+    text-decoration: none;
+    color:white;
+}
+footer {
+    background-color:#31343C ;
+    color: white;
+    /* margin-top: 5%; */
+  }
+  
+  footer a {
+    color: #fff;
+    font-size: 14px;
+    transition-duration: 0.2s;
+  }
+  
+  footer a:hover {
+    text-decoration: none;
+  }
+  
+  .copy {
+    font-size: 12px;
+    padding: 10px;
+    border-top: 1px solid #FFFFFF;
+  }
+  
+  .footer-middle {
+    padding-top: 2em;
+    color: white;
+  }
+  .hit{
+    width:50%;
+  }
+  .text-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .visit{
+    font-size: 1rem;
+    margin-top: 2rem;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+  .visit_no{
+    font-size: 2rem;
+    font-family: 'Raleway', sans-serif;
+  }
+  /*SOCİAL İCONS*/
+  
+  /* footer social icons */
+  
+  ul.social-network {
+    list-style: none;
+    display: inline;
+    margin-left: 0 !important;
+    padding: 0;
+  }
+  
+  ul.social-network li {
+    display: inline;
+    margin: 0 5px;
+  }
+  
+  
+  /* footer social icons */
+  
+  .social-network a.icoFacebook:hover {
+    background-color: #3B5998;
+  }
+  
+  .social-network a.icoLinkedin:hover {
+    background-color: #007bb7;
+  }
+  
+  .social-network a.icoFacebook:hover i,
+  .social-network a.icoLinkedin:hover i {
+    color: #fff;
+  }
+  
+  .social-network a.socialIcon:hover,
+  .socialHoverClass {
+    color: #44BCDD;
+  }
+  
+  .social-circle li a {
+    display: inline-block;
+    position: relative;
+    margin: 0 auto 0 auto;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+  }
+  
+  .social-circle li i {
+    margin: 0;
+    line-height: 30px;
+    text-align: center;
+  }
+  
+  .social-circle li a:hover i,
+  .triggeredHover {
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -ms--transform: rotate(360deg);
+    transform: rotate(360deg);
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    transition: all 0.2s;
+  }
+  
+  .social-circle i {
+    color: #595959;
+    -webkit-transition: all 0.8s;
+    -moz-transition: all 0.8s;
+    -o-transition: all 0.8s;
+    -ms-transition: all 0.8s;
+    transition: all 0.8s;
+  }
+  
+.socials{
+  width:40px;
+  height:40px;
+  margin:10px 10px;
+  border-radius: 50%;
+}
+.navbar__right .sjce{
+  color:#31343C;
+} 
