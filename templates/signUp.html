@@ -31,9 +31,9 @@
           <a href="#" class="social"><i class="fab fa-tiktok"></i></a>
         </div> -->
         <!-- <span>or use your email for registration</span> -->
-        <input type="text" placeholder="Name" />
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
+        <input type="text" placeholder="Name" name="signupName">
+        <input type="email" placeholder="Email" name="signupEmail">
+        <input type="password" placeholder="Password" name="signupPassword">
         <div class="radio-whole">
           <div class="radio">
             <input id="radio-1" name="radio" type="radio" checked>
@@ -49,7 +49,7 @@
       </form>
     </div>
     <div class="form-container sign-in-container">
-      <form>
+      <form action="/auth/signin" method="post">
         <h1>Sign In</h1>
         <img id="avatar" src="" class="ava-class"/>
         
@@ -59,8 +59,8 @@
           <a href="#" class="social"><i class="fab fa-tiktok"></i></a>
         </div> -->
         <!-- <span>or use your account</span> -->
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
+        <input type="email" placeholder="Email" name="signinEmail">
+        <input type="password" placeholder="Password" name="signinPassword">
         <a href="#">Forgot your password?</a>
         <div class="radio-whole">
           <div class="radio">
@@ -73,7 +73,7 @@
             <label  for="radio-2" class="radio-label">Job-seeker</label>
           </div>
       </div>
-        <button onclick="return false;">Sign In</button>
+        <button type="submit">Sign In</button>
       </form>
     </div>
     <div class="overlay-container">
