@@ -27,6 +27,16 @@ myConnection.connect((err)=>{
     console.log("Connection to database failed");
 });
 
+var user = {
+  userEmail: "",
+  isAuthenticated: false,
+}
+
+function authenticateUser(email) {
+  user.userEmail=email;
+  user.isAuthenticated=true;
+}
+
 // Authentication
 app.get("/auth/signup",(req,res)=>{
     res.sendFile(path.join(__dirname,"./templates/signUp.html"));
@@ -37,41 +47,85 @@ app.post("/auth/signup",(req,res)=>{
     const email = req.body.signupEmail;
     const password = md5(req.body.signupPassword);
 
-    console.log(name);
-    console.log(email);
-    console.log(password);
-    res.send("signed up");
+    var checkQ = "Select name from job_seeker_profile where email='"+email+"'";
+    myConnection.query(checkQ,(err,rows)=>{
+      if(!err)
+        {
+          if(rows.length!=0)
+            res.send("<h1>USER ALREADY EXITS</h1>");
+          else
+          {
+            var insertQ = "INSERT INTO job_seeker_profile VALUES('"+email+"','"+password+"',NULL,NULL,NULL,'"+name+"',NULL)";
+            myConnection.query(insertQ,(err, rows, fields)=>{
+              if(!err){
+                console.log(rows);
+                authenticateUser(email); 
+                res.send("<h1>ACCOUNT SUCCESSFULLY CREATED</h1>")
+              }
+              else
+                console.log(err)
+            });
+          }
+        }
+      else
+        console.log(err);
+    });
+
 });
 
 app.post("/auth/signin",(req,res)=>{
   const email = req.body.signinEmail;
   const password = md5(req.body.signinPassword);
 
-  console.log(email);
-  console.log(password);
-  res.send("signed in");
+  var signInQ = "Select *from job_seeker_profile where email='"+email+"' && password='"+password+"'";
+  myConnection.query(signInQ,(err,rows,fields)=>{
+    if(!err){
+      if(rows.length==0)
+        res.send("<h1>INVALID CREDENTIALS</h1><br><a>TRY AGAIN</a>");
+      else
+      {
+        res.send("<h1>YOU HAVE SUCCESSFULLY SIGNED IN</h1>");
+        authenticateUser(email);
+      }
+    }
+    else
+      console.log(err);
+  })
+
 });
 // JOB Listing
 app.get("/job_listing",(req,res)=>{
-    myConnection.query('select job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.j_id = Company.c_id', (err, rows, fields)=>{
-      if(!err){
-        console.log(rows);
-        res.render("joblisting", {
-          rows: rows
-        });
-      }
-      else{
-        console.log(err);
-      }
-    });
+    if(user.isAuthenticated)
+    {
+        myConnection.query('select job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.j_id = Company.c_id', (err, rows, fields)=>{
+        if(!err){
+          console.log(rows);
+          res.render("joblisting", {
+            rows: rows
+          });
+        }
+        else{
+          console.log(err);
+        }
+      });
+    }
+    else
+    res.send("</h1>NOT SIGNNED IN</h1>");
 });
 
 // Filling Student details into Database
 app.get("/StudentForm",(req,res)=>{
-    res.sendFile(path.join(__dirname,"./templates/StudentForm.html"));
+    if(user.isAuthenticated)
+    {
+      res.sendFile(path.join(__dirname,"./templates/StudentForm.html"));
+    }
+    else
+      res.send("</h1>NOT SIGNNED IN</h1>");
 });
 
 app.post("/StudentForm",(req,res)=>{
+  if(user.isAuthenticated)
+  {
     console.log(req.body);
     const sqlQuery1 = "INSERT INTO education (degree, major, university, cgpa, percent, batch) VALUES('"+req.body.degree+"', '"+req.body.major+"','"+req.body.university+"', '"+req.body.cgpa+"', '"+req.body.percentage+"', '"+req.body.batch+"')";
     myConnection.query(sqlQuery1, function(err,result){
@@ -97,6 +151,7 @@ app.post("/StudentForm",(req,res)=>{
         console.log("Data inserted into skill_set table");
       }
     });
+  }
 });
 
 app.get('/',(req,res)=>{
