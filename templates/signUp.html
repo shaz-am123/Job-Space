@@ -34,25 +34,18 @@
         <input type="text" placeholder="Name" name="signupName">
         <input type="email" placeholder="Email" name="signupEmail">
         <input type="password" placeholder="Password" name="signupPassword">
-        <div class="radio-whole">
-          <div class="radio">
-            <input id="radio-1" name="radio" type="radio" checked>
-            <label for="radio-1" class="radio-label">Recruiter</label>
-          </div>
-        
-          <div class="radio">
-            <input id="radio-2" name="radio" type="radio">
-            <label  for="radio-2" class="radio-label">Job-seeker</label>
-          </div>
-      </div>
+        <input list="profileType" name="profileType" placeholder="Profile Type">
+        <datalist id="profileType">
+            <option value="Recruiter" />
+            <option value="Job Seeker" />
+        </datalist>
         <button type="submit">Sign Up</button>
       </form>
     </div>
     <div class="form-container sign-in-container">
       <form action="/auth/signin" method="post">
         <h1>Sign In</h1>
-        <img id="avatar" src="" class="ava-class"/>
-        
+      
         <!-- <div class="social-container">
           <a href="#" class="social"><i class="fab fa-instagram"></i></a>
           <a href="#" class="social"><i class="fab fa-google"></i></a>
@@ -61,18 +54,12 @@
         <!-- <span>or use your account</span> -->
         <input type="email" placeholder="Email" name="signinEmail">
         <input type="password" placeholder="Password" name="signinPassword">
+        <input list="signinProfileType" name="signinProfileType" placeholder="Profile Type">
+        <datalist id="signinProfileType">
+            <option value="Recruiter" />
+            <option value="Job Seeker" />
+        </datalist>
         <a href="#">Forgot your password?</a>
-        <div class="radio-whole">
-          <div class="radio">
-            <input id="radio-1" name="radio" type="radio" checked>
-            <label for="radio-1" class="radio-label">Recruiter</label>
-          </div>
-        
-          <div class="radio">
-            <input id="radio-2" name="radio" type="radio">
-            <label  for="radio-2" class="radio-label">Job-seeker</label>
-          </div>
-      </div>
         <button type="submit">Sign In</button>
       </form>
     </div>

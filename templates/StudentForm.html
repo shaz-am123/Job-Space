@@ -15,10 +15,11 @@
 
 </head>
 <body>
+  <form method="post" action="/StudentForm">
     <div class="whole__form">
         <div class="education">
             <div class="education__head">Education</div>
-            <form class="col s12" method="post" action="/StudentForm">
+            <div class="col s12">
                 <div class="row">
                     <div class="input-field col s6">
                         <input id="degree" name="degree" type="text" class="validate">
@@ -49,12 +50,12 @@
                     <label for="batch">Batch</label>
                   </div>
             </div>
-            <button class="waves-effect waves-light btn aa" type="submit" name="button">Submit</button>
-            </form>
+            <a href="#job_experience">Next</a>
+            </div>
         </div>
-        <div class="job__experience">
+        <div class="job__experience" id="job_experience">
           <div class="experience__head">Experience</div>
-          <form class="col s12" method="post" action="/StudentForm">
+          <div class="col s12">
               <div class="row">
                   <div class="input-field col s6">
                       <input id="curr_job" name="curr_job" type="text" class="validate">
@@ -82,15 +83,15 @@
               <label for="loc">Location</label>
             </div>
           </div>
-                <button class="waves-effect waves-light btn aa" type="submit" name="button">Submit</button>
-          </form>
+                <a href="#skills_head">Next</a>
+          </div>
         </div>
         <div class="skills">
-          <div class="skills__head">Skills</div>
+          <div class="skills__head" id="skills_head">Skills</div>
           <div class="chip__whole">
             <!-- <div class="chips chips-placeholder" id="skilll">
             </div> -->
-            <form class="col s12" method="post" action="/StudentForm">
+            <div class="col s12">
               <div class="row">
                 <div class="input-field col s12">
                   <input id="skill" type="text" class="validate" name="skill">
@@ -98,8 +99,6 @@
                   </div>
 
               </div>
-
-
               <div class="file-field input-field">
                 <div class="btn">
                   <span name="file">File</span>
@@ -107,13 +106,14 @@
                 </div>
                 <div class="file-path-wrapper">
                   <input class="file-path validate" type="text" name="cv" placeholder="Upload your CV">
+                  <button class="waves-effect waves-light btn aa" type="submit" name="button">Submit</button>
                 </div>
               </div>
-              <button class="waves-effect waves-light btn aa" type="submit" name="button">Submit</button>
-            </form>
+            </div>
           </div>
         </div>
     </div>
+  </form>
 </body>
 <script >
 
