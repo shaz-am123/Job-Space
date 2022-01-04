@@ -6,6 +6,7 @@ const path = require("path");
 const mysql = require('mysql');
 const isAuthenticated = false;
 const md5 = require('md5');
+const res = require('express/lib/response');
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -29,7 +30,8 @@ myConnection.connect((err)=>{
 
 var user = {
   userEmail: "",
-  isAuthenticated: false,
+  pType:"",
+  isAuthenticated: false
 }
 
 function authenticateUser(email) {
@@ -47,31 +49,59 @@ app.post("/auth/signup",(req,res)=>{
     const email = req.body.signupEmail;
     const profile = req.body.profileType;
     const password = md5(req.body.signupPassword);
-
-    var checkQ = "Select name from job_seeker_profile where email='"+email+"'";
-    myConnection.query(checkQ,(err,rows)=>{
-      if(!err)
-        {
-          if(rows.length!=0)
-            res.send("<h1>USER ALREADY EXITS</h1>");
-          else
+    if(profile=="Recruiter")
+    {
+      var checkQ = "Select recruiter_name from Company where recruiter_email='"+email+"'";
+      myConnection.query(checkQ,(err,rows)=>{
+        if(!err)
           {
-            var insertQ = "INSERT INTO job_seeker_profile VALUES('"+email+"','"+password+"',NULL,NULL,NULL,'"+name+"',NULL,'"+profile+"')";
-            myConnection.query(insertQ,(err, rows, fields)=>{
+            if(rows.length!=0)
+              res.send("<h1>COMPANY ALREADY EXITS</h1>");
+            else
+            {
+              var insertQ = "INSERT INTO Company (recruiter_name,recruiter_email,recruiter_password,profile_type) VALUES('"+name+"', '"+email+"','"+password+"', '"+profile+"')";
+              myConnection.query(insertQ,(err, rows, fields)=>{
               if(!err){
                 console.log(rows);
                 authenticateUser(email);
-                res.redirect("/StudentForm");
+                res.redirect("/recruiterForm");
               }
               else
                 console.log(err)
-            });
+              });
+            }
           }
-        }
-      else
-        console.log(err);
-    });
-
+        else
+          console.log(err);
+      });
+    }
+    else
+    {
+      var checkQ = "Select name from job_seeker_profile where email='"+email+"'";
+      myConnection.query(checkQ,(err,rows)=>{
+        if(!err)
+          {
+            if(rows.length!=0)
+              res.send("<h1>USER ALREADY EXITS</h1>");
+            else
+            {
+              
+              var insertQ = "INSERT INTO job_seeker_profile VALUES('"+email+"','"+password+"',NULL,NULL,NULL,'"+name+"',NULL,'"+profile+"')";
+              myConnection.query(insertQ,(err, rows, fields)=>{
+                if(!err){
+                  console.log(rows);
+                  authenticateUser(email);
+                  res.redirect("/StudentForm");
+                }
+                else
+                  console.log(err)
+              });
+            }
+          }
+        else
+          console.log(err);
+      });
+    }
 });
 
 app.post("/auth/signin",(req,res)=>{
@@ -179,44 +209,58 @@ app.listen(3000,()=>{
 })
 
 app.get("/recruiterForm", (req,res)=>{
-  res.sendFile(path.join(__dirname,"./templates/recruiterForm.html"));
+  if(user.isAuthenticated)
+    res.sendFile(path.join(__dirname,"./templates/recruiterForm.html"));
+  else
+    res.send("NOT AUTHENTICATED");
 })
 
 app.post("/recruiterForm", (req,res)=>{
-  console.log(req.body);
-  const sqlQuery1 = "INSERT INTO Company (C_name, profile_descr, Business_stream, website_url, Image_url) VALUES('"+req.body.company_name+"', '"+req.body.job_description+"','"+req.body.stream+"', '"+req.body.company_website+"', '"+req.body.logo+"')";
-  const sqlQuery3 = "SELECT C_id from Company WHERE C_name='" + req.body.company_name +"' && profile_descr= '" + req.body.job_description +"' && Business_stream= '" + req.body.stream +"' && website_url='" + req.body.company_website +  "'  && Image_url='" + req.body.logo +"';";
-  console.log(sqlQuery3);
-  var companyID;
+  if(user.isAuthenticated)
+  {
+    console.log(req.body);
+    const sqlQuery1 = "INSERT INTO Company (C_name, profile_descr, Business_stream, website_url, Image_url) VALUES('"+req.body.company_name+"', '"+req.body.job_description+"','"+req.body.stream+"', '"+req.body.company_website+"', '"+req.body.logo+"')";
+    const sqlQuery3 = "SELECT C_id from Company WHERE C_name='" + req.body.company_name +"' && profile_descr= '" + req.body.job_description +"' && Business_stream= '" + req.body.stream +"' && website_url='" + req.body.company_website +  "'  && Image_url='" + req.body.logo +"';";
+    console.log(sqlQuery3);
+    var companyID;
 
-  myConnection.query(sqlQuery1,function(err,result){
-    if(!err){
-      console.log("Data Successfully Inserted into Company Table!!");
-    }else{
-      console.log(err);
-    }
-  });
+    myConnection.query(sqlQuery1,function(err,result)
+      if(!err){
+        console.log("Data Successfully Inserted into Company Table!!");
+        res.redirect("/profile_listing");
+      }else{
+        console.log(err);
+      }
+    });
 
-  myConnection.query(sqlQuery3,function(err,result){
-    if(!err){
-        companyID = result;
-        console.log(companyID[0].C_id);
+    myConnection.query(sqlQuery3,function(err,result){
+      if(!err){
+          companyID = result;
+          console.log(companyID[0].C_id);
 
-        const sqlQuery2 = "INSERT INTO job_post (c_id, job_profile, job_description, apply_by, location, salary) VALUES(" +companyID[0].C_id+", '"+req.body.job_name+"', '"+req.body.job_description+"','"+req.body.apply_by+"', '"+req.body.location+"', '"+req.body.salary+"')";
-
-
-          myConnection.query(sqlQuery2,function(err,result){
-            if(!err){
-              console.log("Data Successfully Inserted into Job post table !!");
-            }else{
-              console.log(err);
-            }
-          })
+          const sqlQuery2 = "INSERT INTO job_post (c_id, job_profile, job_description, apply_by, location, salary) VALUES(" +companyID[0].C_id+", '"+req.body.job_name+"', '"+req.body.job_description+"','"+req.body.apply_by+"', '"+req.body.location+"', '"+req.body.salary+"')";
 
 
-    }else{
-      console.log(err);
-    }
-  })
+            myConnection.query(sqlQuery2,function(err,result){
+              if(!err){
+                console.log("Data Successfully Inserted into Job post table !!");
+              }else{
+                console.log(err);
+              }
+            })
 
+
+      }else{
+        console.log(err);
+      }
+    })
+  }
+
+})
+
+app.get("/profile_listing",(req,res)=>{
+  if(user.isAuthenticated)
+  {
+
+  }
 })
