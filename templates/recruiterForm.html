@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOB SPACE-A job portal for graduates</title>
+    <link rel="stylesheet" href="/css/recruiterForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+   <!-- Compiled and minified JavaScript -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+    <div class="whole__form">
+        <div class="education">
+            <div class="education__head">Company Abouts</div>
+            <form class="col s12" method="post" action="/recruiterForm">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="c_name" type="text" name="company_name" class="validate">
+                        <label for="c_name">Company name</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input id="c_website" type="text" name="company_website" class="validate">
+                        <label for="c_website">Company website</label>
+                      </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s6">
+                      <input id="b_stream" type="text" name="stream" class="validate">
+                      <label for="b_stream">Buisness Stream</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input id="img_url" type="text" name="logo" class="validate">
+                      <label for="img_url">Logo Url</label>
+                    </div>
+              </div>
+        </div>
+        <div class="job__experience">
+          <div class="experience__head">Job Abouts</div>
+
+              <div class="row">
+                  <div class="input-field col s6">
+                      <input id="job_name" type="text" name="job_name" class="validate">
+                      <label for="job_name">Job Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input id="job_des" type="text" name="job_description" class="validate">
+                      <label for="job_des">Job Description</label>
+                    </div>
+
+              </div>
+            <div class="row">
+              <div class="input-field col s6">
+                  <input id="salary" type="number" name="salary" class="validate">
+                  <label for="salary">Salary</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="apply_by" name="apply_by" type="date" class="datepicker">
+                  <label for="apply_by"></label>
+                </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="loc" type="text" name="location" class="validate">
+              <label for="loc">Location</label>
+            </div>
+          </div>
+        </div>
+        <button class="waves-effect waves-light btn aaa" type="submit" name="SubmitButton">Submit</button>
+        </form>
+    </div>
+
+
+</body>
+<script >
+
+
+    $('.chips').material_chip();
+    $('.chips-placeholder').material_chip({
+      placeholder: 'Enter your skills',
+  });
+</script>
+</html>

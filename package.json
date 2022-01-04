@@ -17,5 +17,13 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.15",
     "path": "^0.12.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaz-am123/Job-Space.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shaz-am123/Job-Space/issues"
+  },
+  "homepage": "https://github.com/shaz-am123/Job-Space#readme"
 }
