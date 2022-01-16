@@ -25,5 +25,6 @@
   "bugs": {
     "url": "https://github.com/shaz-am123/Job-Space/issues"
   },
-  "homepage": "https://github.com/shaz-am123/Job-Space#readme"
+  "homepage": "https://github.com/shaz-am123/Job-Space#readme",
+  "devDependencies": {}
 }

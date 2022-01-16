@@ -85,7 +85,7 @@ app.post("/auth/signup",(req,res)=>{
               res.send("<h1>USER ALREADY EXITS</h1>");
             else
             {
-              
+
               var insertQ = "INSERT INTO job_seeker_profile VALUES('"+email+"','"+password+"',NULL,NULL,NULL,'"+name+"',NULL,'"+profile+"')";
               myConnection.query(insertQ,(err, rows, fields)=>{
                 if(!err){
@@ -143,6 +143,31 @@ app.get("/job_listing",(req,res)=>{
     }
     else
     res.send("</h1>NOT SIGNNED IN</h1>");
+});
+
+app.post("/job_listing", (req,res)=>{
+  if(user.isAuthenticated){
+    console.log(req.body.searchInput);
+    var sqlQuery = 'select job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.j_id = Company.c_id where job_post.job_profile = "' + req.body.searchInput + '" OR job_post.job_description = "' + req.body.searchInput + '" OR job_post.location = "' + req.body.searchInput + '" OR job_post.salary = "' + req.body.searchInput + '" OR Company.C_name = "' + req.body.searchInput + '" ;';
+    if( ((req.body.searchInput === undefined) || (req.body.searchInput === '')) ){
+      res.redirect("/job_listing");
+    }else{
+      myConnection.query(sqlQuery, function(err, rows, fields){
+        if(!err){
+          console.log(rows);
+          res.render("joblisting", {
+            rows: rows
+          });
+        }
+        else{
+          console.log(err);
+        }
+      });
+    }
+  }
+  else{
+    res.send("</h1>NOT SIGNNED IN</h1>");
+  }
 });
 
 // Filling Student details into Database
@@ -224,7 +249,7 @@ app.post("/recruiterForm", (req,res)=>{
     console.log(sqlQuery3);
     var companyID;
 
-    myConnection.query(sqlQuery1,function(err,result)
+    myConnection.query(sqlQuery1,function(err,result){
       if(!err){
         console.log("Data Successfully Inserted into Company Table!!");
         res.redirect("/profile_listing");
@@ -259,8 +284,52 @@ app.post("/recruiterForm", (req,res)=>{
 })
 
 app.get("/profile_listing",(req,res)=>{
-  if(user.isAuthenticated)
-  {
+  if(user.isAuthenticated){
+    const sqlQuery1 = 'SELECT * from job_seeker_profile JOIN Experience ON job_seeker_profile.exp_id = Experience.exp_id JOIN education ON job_seeker_profile.ed_id = education.ed_id JOIN skill_set ON job_seeker_profile.skill_id = skill_set.skill_id;';
 
+
+    myConnection.query(sqlQuery1,function(err,result){
+      if(!err){
+        console.log(result);
+        res.render("profile_listing", {
+          rows : result
+        });
+      }else{
+        console.log(err);
+      }
+    })
+  }else{
+    res.send("<h1>Not Signed in.</h1>");
   }
+})
+
+app.post("/profile_listing", (req,res)=>{
+  if(user.isAuthenticated){
+
+  console.log(req.body.searchInput);
+
+  const sqlQuery2 = 'SELECT * from job_seeker_profile JOIN Experience ON job_seeker_profile.exp_id = Experience.exp_id JOIN education ON job_seeker_profile.ed_id = education.ed_id JOIN skill_set ON job_seeker_profile.skill_id = skill_set.skill_id WHERE Experience.current_job = "' + req.body.searchInput + '" OR Experience.company_name="' + req.body.searchInput + '" OR Experience.location = "JSSSTU" OR education.degree = "' + req.body.searchInput + '" OR education.major="' + req.body.searchInput + '" OR education.university="' + req.body.searchInput + '" OR education.cgpa="' + req.body.searchInput + '" OR education.percent="' + req.body.searchInput + '" OR education.batch="' + req.body.searchInput + '";';
+
+  console.log(sqlQuery2);
+
+  if(req.body.searchInput === undefined || req.body.searchInput === ''){
+    red.redirect("/profile_listing");
+  }
+  else{
+    myConnection.query(sqlQuery2,function(err,result){
+      if(!err){
+        console.log(result);
+        res.render("profile_listing", {
+          rows : result
+        });
+      }else{
+        console.log(err);
+      }
+    })
+  }
+
+  }else{
+    res.send("<h1>Not Signed in.</h1>");
+  }
+
 })

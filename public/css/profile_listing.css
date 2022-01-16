@@ -1,0 +1,125 @@
+.search {
+    width: 100%;
+    position: relative;
+    display: flex;
+  }
+
+  .searchTerm {
+    width: 100%;
+    border: 3px solid #00B4CC;
+    border-right: none;
+    padding: 5px;
+    height: 36px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+  }
+
+  .searchTerm:focus{
+    color: #00B4CC;
+  }
+
+  .searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #00A5EC;
+    background: #00A5EC;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+  /*Resize the wrap to see the search bar change!*/
+  .wrap{
+    width: 30%;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FAFAFA;
+  }
+
+  .list__job{
+      background-color: #FAFAFA;
+      position: absolute;
+      top: 15%;
+      left:10%;
+      display: grid;
+      grid-template-rows: 1fr;
+  }
+  .job__card{
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    width:50rem;
+    padding: 1rem 3rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .headimg{
+    display: flex;
+    justify-content: space-between;
+  }
+  .headjob{
+      display: flex;
+      flex-direction: column;
+  }
+  .companylogo{
+      width: 5rem;
+      border-radius: 10px;
+  }
+  .desig{
+      font-weight: 500;
+      font-size: 1.6rem;
+  }
+  .company{
+      font-style: italic;
+  }
+  .description{
+      margin-top:3rem;
+  }
+  .description__head{
+    font-weight: 500;
+  }
+
+  .rest{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+      margin-top: 2rem;
+  }
+
+  .salary,.duration,.location{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .head__Salary,.head__Applyby,.head__loca{
+      font-weight: 500;
+  }
+
+  .applybutton{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2rem;
+  }
+  .apply{
+      background: #00A5EC;
+      color: #ffff;
+      font-size: 16px;
+      line-height: 24px;
+      border: none;
+      min-width: 146px;
+      padding: 12px 32px;
+      border-radius: 4px;
+      max-width: 246px;
+  }
