@@ -106,29 +106,42 @@ app.post("/auth/signup",(req,res)=>{
 
 app.post("/auth/signin",(req,res)=>{
   const email = req.body.signinEmail;
-  const profile = req.body.profileType;
+  const profile = req.body.signinProfileType;
   const password = md5(req.body.signinPassword);
-
-  if(profile=="Job Seeker"){
-  var signInQ = "Select *from job_seeker_profile where email='"+email+"' && password='"+password+"'";
-  myConnection.query(signInQ,(err,rows,fields)=>{
-    if(!err){
-      if(rows.length==0)
-        res.send("<h1>INVALID CREDENTIALS</h1><br><a>TRY AGAIN</a>");
-      else
-      {
-        console.log("YOU HAVE SUCCESSFULLY SIGNED IN");
-        res.redirect("/job_listing");
-        authenticateUser(email);
+  if(profile=="Recruiter")
+  {
+    var signInQ = "Select *from Company where recruiter_email='"+email+"' && recruiter_password='"+password+"'";
+    myConnection.query(signInQ,(err,rows,fields)=>{
+      if(!err){
+        if(rows.length==0)
+          res.send("<h1>INVALID CREDENTIALS</h1><br><a>TRY AGAIN</a>");
+        else
+        {
+          console.log("YOU HAVE SUCCESSFULLY SIGNED IN");
+          res.redirect("/profile_listing");
+          authenticateUser(email);
+        }
       }
-    }
-    else
-      console.log(err);
-  })
-}
-else{
-        res.redirect("/profile_listing");
-        authenticateUser(email);
+      else
+        console.log(err);
+    })
+  }
+  else{
+    var signInQ = "Select *from job_seeker_profile where email='"+email+"' && password='"+password+"'";
+    myConnection.query(signInQ,(err,rows,fields)=>{
+      if(!err){
+        if(rows.length==0)
+          res.send("<h1>INVALID CREDENTIALS</h1><br><a>TRY AGAIN</a>");
+        else
+        {
+          console.log("YOU HAVE SUCCESSFULLY SIGNED IN");
+          res.redirect("/job_listing");
+          authenticateUser(email);
+        }
+      }
+      else
+        console.log(err);
+    })
 }
 
 });
