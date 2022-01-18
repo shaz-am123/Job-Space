@@ -86,7 +86,7 @@ app.post("/auth/signup",(req,res)=>{
             else
             {
 
-              var insertQ = "INSERT INTO job_seeker_profile VALUES('"+email+"','"+password+"',NULL,NULL,NULL,'"+name+"',NULL,'"+profile+"')";
+              var insertQ = "INSERT INTO job_seeker_profile VALUES('"+email+"','"+password+"',NULL,NULL,NULL,'"+name+"','"+profile+"')";
               myConnection.query(insertQ,(err, rows, fields)=>{
                 if(!err){
                   console.log(rows);
@@ -106,8 +106,10 @@ app.post("/auth/signup",(req,res)=>{
 
 app.post("/auth/signin",(req,res)=>{
   const email = req.body.signinEmail;
+  const profile = req.body.profileType;
   const password = md5(req.body.signinPassword);
 
+  if(profile=="Job Seeker"){
   var signInQ = "Select *from job_seeker_profile where email='"+email+"' && password='"+password+"'";
   myConnection.query(signInQ,(err,rows,fields)=>{
     if(!err){
@@ -123,13 +125,18 @@ app.post("/auth/signin",(req,res)=>{
     else
       console.log(err);
   })
+}
+else{
+        res.redirect("/profile_listing");
+        authenticateUser(email);
+}
 
 });
 // JOB Listing
 app.get("/job_listing",(req,res)=>{
     if(user.isAuthenticated)
     {
-        myConnection.query('select job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.j_id = Company.c_id', (err, rows, fields)=>{
+        myConnection.query('select job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.c_id = Company.c_id', (err, rows, fields)=>{
         if(!err){
           //console.log(rows);
           res.render("joblisting", {
@@ -308,8 +315,9 @@ app.listen(3000,()=>{
 })
 
 app.get("/recruiterForm", (req,res)=>{
-  if(user.isAuthenticated)
+  if(user.isAuthenticated){
     res.sendFile(path.join(__dirname,"./templates/recruiterForm.html"));
+  }
   else
     res.send("NOT AUTHENTICATED");
 })
@@ -318,7 +326,7 @@ app.post("/recruiterForm", (req,res)=>{
   if(user.isAuthenticated)
   {
     console.log(req.body);
-    const sqlQuery1 = "INSERT INTO Company (C_name, profile_descr, Business_stream, website_url, Image_url) VALUES('"+req.body.company_name+"', '"+req.body.job_description+"','"+req.body.stream+"', '"+req.body.company_website+"', '"+req.body.logo+"')";
+    const sqlQuery1 = "UPDATE Company SET C_name = '"+req.body.company_name+"', profile_descr =  '"+req.body.job_description+"', Business_stream = '"+req.body.stream+"', website_url = '"+req.body.company_website+"', Image_url = '"+req.body.logo+"' WHERE recruiter_email = '" + user.userEmail + "';" ;
     const sqlQuery3 = "SELECT C_id from Company WHERE C_name='" + req.body.company_name +"' && profile_descr= '" + req.body.job_description +"' && Business_stream= '" + req.body.stream +"' && website_url='" + req.body.company_website +  "'  && Image_url='" + req.body.logo +"';";
     console.log(sqlQuery3);
     var companyID;
@@ -359,8 +367,8 @@ app.post("/recruiterForm", (req,res)=>{
 
 app.get("/profile_listing",(req,res)=>{
   if(user.isAuthenticated){
-    const sqlQuery1 = 'SELECT * from job_seeker_profile JOIN Experience ON job_seeker_profile.exp_id = Experience.exp_id JOIN education ON job_seeker_profile.ed_id = education.ed_id JOIN skill_set ON job_seeker_profile.skill_id = skill_set.skill_id;';
-
+    const sqlQuery1 = "SELECT * from job_seeker_profile JOIN Experience ON job_seeker_profile.exp_id = Experience.exp_id JOIN education ON job_seeker_profile.ed_id = education.ed_id JOIN skill_set ON job_seeker_profile.skill_id = skill_set.skill_id WHERE job_seeker_profile.email  IN  (select email from applied where c_id IN (select C_id from Company where recruiter_email = '"  + user.userEmail +  "'));"
+    console.log(sqlQuery1);
 
     myConnection.query(sqlQuery1,function(err,result){
       if(!err){
@@ -382,7 +390,7 @@ app.post("/profile_listing", (req,res)=>{
 
   console.log(req.body.searchInput);
 
-  const sqlQuery2 = 'SELECT * from job_seeker_profile JOIN Experience ON job_seeker_profile.exp_id = Experience.exp_id JOIN education ON job_seeker_profile.ed_id = education.ed_id JOIN skill_set ON job_seeker_profile.skill_id = skill_set.skill_id JOIN applied ON job_seeker_profile.email = applied.email WHERE Experience.current_job = "' + req.body.searchInput + '" OR Experience.company_name="' + req.body.searchInput + '" OR Experience.location = "JSSSTU" OR education.degree = "' + req.body.searchInput + '" OR education.major="' + req.body.searchInput + '" OR education.university="' + req.body.searchInput + '" OR education.cgpa="' + req.body.searchInput + '" OR education.percent="' + req.body.searchInput + '" OR education.batch="' + req.body.searchInput + '";';
+  const sqlQuery2 = 'SELECT * from job_seeker_profile JOIN Experience ON job_seeker_profile.exp_id = Experience.exp_id JOIN education ON job_seeker_profile.ed_id = education.ed_id JOIN skill_set ON job_seeker_profile.skill_id = skill_set.skill_id WHERE job_seeker_profile.email  IN  (select email from applied where c_id IN (select C_id from Company where recruiter_email = "'  + user.userEmail +  '")) WHERE Experience.current_job = "' + req.body.searchInput + '" OR Experience.company_name="' + req.body.searchInput + '" OR Experience.location = "JSSSTU" OR education.degree = "' + req.body.searchInput + '" OR education.major="' + req.body.searchInput + '" OR education.university="' + req.body.searchInput + '" OR education.cgpa="' + req.body.searchInput + '" OR education.percent="' + req.body.searchInput + '" OR education.batch="' + req.body.searchInput + '";';
 
   console.log(sqlQuery2);
 
