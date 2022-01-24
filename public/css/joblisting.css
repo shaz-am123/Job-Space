@@ -14,7 +14,9 @@
     outline: none;
     color: #9DBFAF;
   }
-
+  .totnav{
+    background-color: #2BBBAD !important;
+}
   .searchTerm:focus{
     color: #00B4CC;
   }

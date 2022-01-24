@@ -15,8 +15,10 @@
     <title>JOB SPACE-A job portal for graduates</title>
 		<link href="/css/joblisting.css" rel="stylesheet">
     </head>
+    
     <body>
-        <div class="wrap">
+        <%-include('header.ejs') %>
+        <!-- <div class="wrap">
 					<div class="search">
 						<form class="search" method="post"  action="/job_listing" >
 							<input type="text" class="searchTerm" id="searchbar" name="searchInput" placeholder="What are you looking for?">
@@ -25,7 +27,7 @@
 						 </button>
 						</form>
 					</div>
-         </div>
+         </div> -->
          <div class="list__job">
 <% var count = 0 ; %>
  <% rows.forEach(function(row){ %>
