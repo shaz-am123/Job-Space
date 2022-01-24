@@ -225,7 +225,7 @@ app.post("/StudentForm",(req,res)=>{
   {
     var error=0;
     console.log(user.userEmail);
-    const sqlQuery1 = "INSERT INTO education (degree, major, university, cgpa, percent, batch) VALUES('"+req.body.degree+"', '"+req.body.major+"','"+req.body.university+"', '"+req.body.cgpa+"', '"+req.body.percentage+"', '"+req.body.batch+"')";
+    const sqlQuery1 = "INSERT INTO education (degree, major, university, cgpa, percent, batch) VALUES('"+req.body.degree+"', '"+req.body.major+"','"+req.body.university+"', "+req.body.cgpa+", "+req.body.percentage+", "+req.body.batch+")";
     myConnection.query(sqlQuery1, function(err,result){
       if(err)
         {
@@ -255,7 +255,7 @@ app.post("/StudentForm",(req,res)=>{
       }
     });
 
-    const sqlQuery4 = "SELECT ed_id from education where degree = '"+req.body.degree+"' AND major = '"+req.body.major+"' AND university = '"+req.body.university+"' AND cgpa = '"+req.body.cgpa+"' AND percent =  '"+req.body.percentage+"' AND  batch = '"+req.body.batch+"';";
+    const sqlQuery4 = "SELECT ed_id from education where degree = '"+req.body.degree+"' AND major = '"+req.body.major+"' AND university = '"+req.body.university+"' AND cgpa = "+req.body.cgpa+" AND percent =  "+req.body.percentage+" AND  batch = "+req.body.batch+";";
     const sqlQuery5 = "SELECT exp_id from Experience WHERE current_job = '"+req.body.curr_job+"' AND  company_name = '"+req.body.comp_name+"' AND start_date = '"+req.body.start_d+"' AND  end_date = '"+req.body.end_d+"' AND location =  '"+req.body.loc+"';";
     const sqlQuery6 = "SELECT skill_id from skill_set WHERE skill_set_name = '"+req.body.skill+"' AND  cv = '"+req.body.cv+"';";
 
