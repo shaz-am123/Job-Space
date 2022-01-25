@@ -18,16 +18,21 @@
     
     <body>
         <%-include('header.ejs') %>
-        <div class="wrap">
+        <div class="totalsearch">
+
+<div class="wrap">
 					<div class="search">
 						<form class="search" method="post"  action="/job_listing" >
-							<input type="text" class="searchTerm" id="searchbar" name="searchInput" placeholder="What are you looking for?">
+							<input type="text" class="searchTermi" id="searchbar" name="searchInput" placeholder="What are you looking for?">
 							<button type="submit" name="searchButton" class="searchButton">
 								<i  class="fa fa-search" ></i>
 						 </button>
 						</form>
 					</div>
          </div>
+
+        </div>
+        
          <div class="list__job">
 <% var count = 0 ; %>
  <% rows.forEach(function(row){ %>

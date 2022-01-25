@@ -3,16 +3,18 @@
     position: relative;
     display: flex;
   }
-
+  .totnav{
+    background-color: #2BBBAD !important;
+}
   .searchTerm {
-    width: 100%;
-    border: 3px solid #00B4CC;
-    border-right: none;
-    padding: 5px;
-    height: 36px;
-    border-radius: 5px 0 0 5px;
-    outline: none;
-    color: #9DBFAF;
+    width: 100% !important; 
+    border: 3px solid #00B4CC !important;
+    border-right: none !important;
+    /* padding: 5px  !important; */
+    height: 36px !important;
+    border-radius: 5px 0 0 5px !important;
+    outline: none !important;
+    color: #9DBFAF !important;
   }
 
   .searchTerm:focus{
@@ -20,24 +22,21 @@
   }
 
   .searchButton {
-    width: 40px;
-    height: 36px;
-    border: 1px solid #00A5EC;
-    background: #00A5EC;
-    text-align: center;
-    color: #fff;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
-    font-size: 20px;
+    width: 40px  !important;
+    height: 42px  !important;
+    border: 1px solid #00A5EC  !important;
+    background: #00A5EC  !important;
+    text-align: center  !important;
+    color: #fff  !important;
+    border-radius: 0 5px 5px 0  !important;
+    cursor: pointer  !important;
+    font-size: 20px  !important;
   }
 
   /*Resize the wrap to see the search bar change!*/
   .wrap{
-    width: 30%;
-    position: absolute;
-    top: 5%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 50%;
+   margin: 1vh auto 0 auto;
     background-color: #FAFAFA;
   }
 

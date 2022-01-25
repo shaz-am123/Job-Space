@@ -196,6 +196,7 @@ app.post("/job_listing", (req,res)=>{
   if(user.isAuthenticated){
     console.log(req.body.searchInput);
     var sqlQuery = 'select job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.j_id = Company.c_id where job_post.job_profile = "' + req.body.searchInput + '" OR job_post.job_description = "' + req.body.searchInput + '" OR job_post.location = "' + req.body.searchInput + '" OR job_post.salary = "' + req.body.searchInput + '" OR Company.C_name = "' + req.body.searchInput + '" ;';
+    // var sqlQuery1= 'select * from applied;'
     if( ((req.body.searchInput === undefined) || (req.body.searchInput === '')) ){
       res.redirect("/job_listing");
     }else{
@@ -210,6 +211,18 @@ app.post("/job_listing", (req,res)=>{
           console.log(err);
         }
       });
+      // myConnection.query(sqlQuery1, function(err, rows, fields){
+      //   if(!err){
+          //console.log(rows);
+          // res.render("joblisting", {
+          //   rows: rows
+          // });
+  //         console.log(rows);
+  //       }
+  //       else{
+  //         console.log(err);
+  //       }
+  //     });
    }
     //console.log(req.body.applybutton);
     //console.log(JSON.parse(req.body.applybutton));
