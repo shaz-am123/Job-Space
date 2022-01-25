@@ -143,8 +143,15 @@ app.post("/auth/signin",(req,res)=>{
         console.log(err);
     })
 }
-
 });
+
+app.get("/auth/logout",(req,res)=>{
+  user.userEmail="";
+  user.pType = "";
+  user.isAuthenticated=false;
+  res.redirect("/auth/signup");
+});
+
 // JOB Listing
 app.get("/job_listing",(req,res)=>{
     if(user.isAuthenticated)
@@ -427,4 +434,18 @@ app.post("/profile_listing", (req,res)=>{
     res.send("<h1>Not Signed in.</h1>");
   }
 
+});
+
+app.get("/profile",(req,res)=>{
+  if(user.isAuthenticated)
+  res.render("profile");
+  else
+  res.send("NOT AUTHENTICATED");
+})
+
+app.get("/about",(req,res)=>{
+  if(user.isAuthenticated)
+  res.render("about");
+  else
+  res.send("NOT AUTHENTICATED");
 })
