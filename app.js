@@ -13,6 +13,26 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
+
+////////////////////////////////////////////////
+function tryParseJSONObject (jsonString){
+    try {
+        var o = JSON.parse(jsonString);
+
+        // Handle non-exception-throwing cases:
+        // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+        // but... JSON.parse(null) returns null, and typeof null === "object",
+        // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+        if (o && typeof o === "object") {
+            return o;
+        }
+    }
+    catch (e) { }
+
+    return false;
+};
+////////////////////////////////////////////////
+
 var myConnection = mysql.createConnection({
     host: "bvpspd0l24sdpal9h7fl-mysql.services.clever-cloud.com",
     user: "ulfhcsbangdhtfis",
@@ -174,7 +194,7 @@ app.get("/job_listing",(req,res)=>{
 
 app.post("/job_listing", (req,res)=>{
   if(user.isAuthenticated){
-    console.log(req.body);
+    console.log(req.body.searchInput);
     var sqlQuery = 'select job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.j_id = Company.c_id where job_post.job_profile = "' + req.body.searchInput + '" OR job_post.job_description = "' + req.body.searchInput + '" OR job_post.location = "' + req.body.searchInput + '" OR job_post.salary = "' + req.body.searchInput + '" OR Company.C_name = "' + req.body.searchInput + '" ;';
     if( ((req.body.searchInput === undefined) || (req.body.searchInput === '')) ){
       res.redirect("/job_listing");
@@ -190,27 +210,30 @@ app.post("/job_listing", (req,res)=>{
           console.log(err);
         }
       });
-    }
+   }
+    //console.log(req.body.applybutton);
     //console.log(JSON.parse(req.body.applybutton));
-    var sqlQueryInsert = 'select j_id, c_id from job_post where job_post.job_profile = "' + JSON.parse(req.body.applybutton).job_profile + '" AND job_post.job_description="' + JSON.parse(req.body.applybutton).job_description + '" AND job_post.location="' + JSON.parse(req.body.applybutton).location + '" AND job_post.salary="' + JSON.parse(req.body.applybutton).salary + '"; '
-    //console.log(sqlQueryInsert);
-    myConnection.query(sqlQueryInsert, function(err,rows,fields){
-      if(!err){
-        //console.log(rows);
-        //console.log(user.userEmail);
-        var sqlQueryInApply = 'insert into applied values ("' + user.userEmail + '", ' + rows[0].j_id + ', ' + rows[0].c_id + '); ';
-        //console.log(sqlQueryInApply);
-        myConnection.query(sqlQueryInApply, function(err, rows, fields){
-          if(!err){
-            console.log("Successfully inserted into applied tables");
-          }else{
-            console.log(err);
-          }
-        })
-      }else{
-        console.log(err);
-      }
-    })
+    if(tryParseJSONObject(req.body.applybutton)){
+      var sqlQueryInsert = 'select j_id, c_id from job_post where job_post.job_profile = "' + JSON.parse(req.body.applybutton).job_profile + '" AND job_post.job_description="' + JSON.parse(req.body.applybutton).job_description + '" AND job_post.location="' + JSON.parse(req.body.applybutton).location + '" AND job_post.salary="' + JSON.parse(req.body.applybutton).salary + '"; '
+      //console.log(sqlQueryInsert);
+      myConnection.query(sqlQueryInsert, function(err,rows,fields){
+        if(!err){
+          //console.log(rows);
+          //console.log(user.userEmail);
+          var sqlQueryInApply = 'insert into applied values ("' + user.userEmail + '", ' + rows[0].j_id + ', ' + rows[0].c_id + '); ';
+          //console.log(sqlQueryInApply);
+          myConnection.query(sqlQueryInApply, function(err, rows, fields){
+            if(!err){
+              console.log("Successfully inserted into applied tables");
+            }else{
+              console.log(err);
+            }
+          })
+        }else{
+          console.log(err);
+        }
+      })
+   }
   }
   else{
     res.send("</h1>NOT SIGNNED IN</h1>");
@@ -232,7 +255,7 @@ app.post("/StudentForm",(req,res)=>{
   {
     var error=0;
     console.log(user.userEmail);
-    const sqlQuery1 = "INSERT INTO education (degree, major, university, cgpa, percent, batch) VALUES('"+req.body.degree+"', '"+req.body.major+"','"+req.body.university+"', "+req.body.cgpa+", "+req.body.percentage+", "+req.body.batch+")";
+    const sqlQuery1 = "INSERT INTO education (degree, major, university, cgpa, percent, batch) VALUES('"+req.body.degree+"', '"+req.body.major+"','"+req.body.university+"', '"+req.body.cgpa+"', '"+req.body.percentage+"', "+req.body.batch+")";
     myConnection.query(sqlQuery1, function(err,result){
       if(err)
         {
@@ -262,7 +285,7 @@ app.post("/StudentForm",(req,res)=>{
       }
     });
 
-    const sqlQuery4 = "SELECT ed_id from education where degree = '"+req.body.degree+"' AND major = '"+req.body.major+"' AND university = '"+req.body.university+"' AND cgpa = "+req.body.cgpa+" AND percent =  "+req.body.percentage+" AND  batch = "+req.body.batch+";";
+    const sqlQuery4 = "SELECT ed_id from education where degree = '"+req.body.degree+"' AND major = '"+req.body.major+"' AND university = '"+req.body.university+"' AND cgpa = '"+req.body.cgpa+"' AND percent =  '"+req.body.percentage+"' AND  batch = "+req.body.batch+";";
     const sqlQuery5 = "SELECT exp_id from Experience WHERE current_job = '"+req.body.curr_job+"' AND  company_name = '"+req.body.comp_name+"' AND start_date = '"+req.body.start_d+"' AND  end_date = '"+req.body.end_d+"' AND location =  '"+req.body.loc+"';";
     const sqlQuery6 = "SELECT skill_id from skill_set WHERE skill_set_name = '"+req.body.skill+"' AND  cv = '"+req.body.cv+"';";
 
