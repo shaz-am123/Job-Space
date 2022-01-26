@@ -509,7 +509,7 @@ app.get("/profile",(req,res)=>{
     }
     else
     {
-      var resultProfile = {
+      let resultProfile = {
         name: '',
         email: '',
         profileType: '',
@@ -554,10 +554,9 @@ app.get("/profile",(req,res)=>{
             }
             else
             console.log(err);
-          });
-          console.log(resultProfile.worked_as);
-          res.render("jobSeekerProfile",{
-            details: resultProfile
+            res.render("jobSeekerProfile",{
+              details: resultProfile
+            });
           });
         }
         else
@@ -570,9 +569,6 @@ app.get("/profile",(req,res)=>{
 })
 
 app.get("/about",(req,res)=>{
-  if(user.isAuthenticated)
   res.render("about");
-  else
-  res.send("NOT AUTHENTICATED");
 })
 
