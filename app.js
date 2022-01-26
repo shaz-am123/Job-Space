@@ -54,9 +54,10 @@ var user = {
   isAuthenticated: false
 }
 
-function authenticateUser(email) {
-  user.userEmail=email;
-  user.isAuthenticated=true;
+function authenticateUser(email, profile) {
+  user.userEmail = email;
+  user.pType = profile;
+  user.isAuthenticated = true;
 }
 
 // Authentication
@@ -139,7 +140,7 @@ app.post("/auth/signin",(req,res)=>{
         {
           console.log("YOU HAVE SUCCESSFULLY SIGNED IN");
           res.redirect("/profile_listing");
-          authenticateUser(email);
+          authenticateUser(email, profile);
         }
       }
       else
@@ -156,7 +157,7 @@ app.post("/auth/signin",(req,res)=>{
         {
           console.log("YOU HAVE SUCCESSFULLY SIGNED IN");
           res.redirect("/job_listing");
-          authenticateUser(email);
+          authenticateUser(email,profile);
         }
       }
       else
@@ -170,6 +171,14 @@ app.get("/auth/logout",(req,res)=>{
   user.pType = "";
   user.isAuthenticated=false;
   res.redirect("/auth/signup");
+});
+
+//Listing
+app.get("/listing",(req,res)=>{
+  if(user.pType=="Recruiter")
+  res.redirect("/profile_listing")
+  else
+  res.redirect("/job_listing");
 });
 
 // JOB Listing
@@ -305,7 +314,7 @@ app.post("/StudentForm",(req,res)=>{
     myConnection.query(sqlQuery4, function(err, result){
       if(!err){
         console.log(result);
-        sqlQuery7 = "update job_seeker_profile set ed_id  = "  + result[0].ed_id +  " where email = '" + user.userEmail + "';";
+        var sqlQuery7 = "update job_seeker_profile set ed_id  = "  + result[0].ed_id +  " where email = '" + user.userEmail + "';";
         console.log(sqlQuery7);
         myConnection.query(sqlQuery7, function(err, rows){
           if(!err){
@@ -321,7 +330,7 @@ app.post("/StudentForm",(req,res)=>{
     myConnection.query(sqlQuery5, function(err, result){
       if(!err){
         console.log(result);
-        sqlQuery8 = "update job_seeker_profile set exp_id  = "  + result[0].exp_id +  " where email = '" + user.userEmail + "';";
+        var sqlQuery8 = "update job_seeker_profile set exp_id  = "  + result[0].exp_id +  " where email = '" + user.userEmail + "';";
         console.log(sqlQuery8);
         myConnection.query(sqlQuery8, function(err, rows){
           if(!err){
@@ -337,7 +346,7 @@ app.post("/StudentForm",(req,res)=>{
     myConnection.query(sqlQuery6, function(err, result){
       if(!err){
         console.log(result);
-        sqlQuery9 = 'update job_seeker_profile set skill_id  = '  + result[0].skill_id +  ' where email = "' + user.userEmail + '";';
+        var sqlQuery9 = 'update job_seeker_profile set skill_id  = '  + result[0].skill_id +  ' where email = "' + user.userEmail + '";';
         console.log(sqlQuery9);
         myConnection.query(sqlQuery9, function(err, rows){
           if(!err){
@@ -346,7 +355,8 @@ app.post("/StudentForm",(req,res)=>{
             console.log(err);
           }
         })
-      }else{
+      }
+      else{
         console.log("error occurred");
       }
     })
@@ -474,7 +484,87 @@ app.post("/profile_listing", (req,res)=>{
 
 app.get("/profile",(req,res)=>{
   if(user.isAuthenticated)
-  res.render("profile");
+  {
+    if(user.pType=="Recruiter")
+    {
+      var sqlProfile = "Select C_name, Business_stream, website_url, profile_descr, Image_url from Company where recruiter_email='"+user.userEmail+"'";
+      var myProfile = myConnection.query(sqlProfile,(err,result)=>
+      {
+        if(!err)
+        {
+          console.log(result[0].C_name);
+          res.render("recruiterProfile", {
+            name : result[0].C_name,
+            email: user.userEmail,
+            profile: user.pType,
+            job: result[0].profile_descr,
+            image_url: result[0].Image_url,
+            stream: result[0].Business_stream,
+            website: result[0].website_url
+          });
+        }
+        else
+        console.log(err);
+      });
+    }
+    else
+    {
+      var resultProfile = {
+        name: '',
+        email: '',
+        profileType: '',
+        worked_for: '',
+        worked_as: '',
+        worked_till: '00/00/00',
+        cgpa: 0,
+        degree: '',
+        major: '',
+        university: '',
+        batch: ''
+      }
+      var sqlProfile = "Select name, exp_id, ed_id, skill_id from job_seeker_profile where email='"+user.userEmail+"'";
+      var myProfile = myConnection.query(sqlProfile,(err,result1)=>
+      {
+        if(!err)
+        {
+          resultProfile.name = result1[0].name;
+          resultProfile.email = user.userEmail;
+          resultProfile.profileType = user.pType;
+          var sqlExp = "Select current_job, company_name, end_date from Experience where exp_id="+result1[0].exp_id+"";
+          var expData = myConnection.query(sqlExp,(err,result2)=>{
+            if(!err)
+            {
+              resultProfile.worked_as = result2[0].current_job;
+              resultProfile.worked_for = result2[0].company_name;
+              resultProfile.worked_till = result2[0].end_date;
+            }
+            else 
+            console.log(err);
+          });
+
+          var sqlEd = "Select degree, major, cgpa, university, batch from education where ed_id="+result1[0].ed_id+"";
+          var edData = myConnection.query(sqlEd,(err,result3)=>{
+            if(!err)
+            {
+              resultProfile.degree = result3[0].degree;
+              resultProfile.major = result3[0].major;
+              resultProfile.cgpa = result3[0].cgpa;
+              resultProfile.university = result3[0].university;
+              resultProfile.batch = result3[0].batch;
+            }
+            else
+            console.log(err);
+          });
+          console.log(resultProfile.worked_as);
+          res.render("jobSeekerProfile",{
+            details: resultProfile
+          });
+        }
+        else
+        console.log(err);
+      });
+    }
+  }
   else
   res.send("NOT AUTHENTICATED");
 })
@@ -485,3 +575,4 @@ app.get("/about",(req,res)=>{
   else
   res.send("NOT AUTHENTICATED");
 })
+
