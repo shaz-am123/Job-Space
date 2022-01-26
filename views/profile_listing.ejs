@@ -29,7 +29,9 @@
      </div>
      <div class="list__job">
 
+<% var count = 0 ; %>
 <% rows.forEach(function(row){ %>
+	 <form class="applybutton" action="/delete" method="post">
          <div class="job__card">
              <div class="headimg">
                  <div class="head__job">
@@ -49,9 +51,13 @@
                 <div class="salary"><div class="head__Salary">CV</div><div class="salary_num">Link</div></div>
              </div>
              <div class="applybutton">
-                 <button class="apply">Accept</button>
+                 <button type = "submit" value = "<%=JSON.stringify(rows[count])%>" name="acceptbutton" class="apply">Accept</button>
+							 </br>
+								 <button type = "submit" value = "<%=JSON.stringify(rows[count])%>" name="rejectbutton" class="apply">Reject</button>
              </div>
          </div>
+				 </form>
+				 <%count = count + 1 ; %>
          <% }); %>
      </div>
 </body>

@@ -7,6 +7,7 @@ const mysql = require('mysql');
 const isAuthenticated = false;
 const md5 = require('md5');
 const res = require('express/lib/response');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -185,11 +186,15 @@ app.get("/listing",(req,res)=>{
 app.get("/job_listing",(req,res)=>{
     if(user.isAuthenticated)
     {
-        myConnection.query('select job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.c_id = Company.c_id', (err, rows, fields)=>{
+        myConnection.query('select job_post.j_id, job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.c_id = Company.c_id', (err, rows, fields)=>{
         if(!err){
           //console.log(rows);
-          res.render("joblisting", {
-            rows: rows
+          var query2 = "select * from applied where email = '" + user.userEmail + "';";
+          myConnection.query(query2, function(err, rows1, fields){
+            res.render("joblisting", {
+              rows: rows,
+              rows1 : rows1
+            });
           });
         }
         else{
@@ -204,7 +209,7 @@ app.get("/job_listing",(req,res)=>{
 app.post("/job_listing", (req,res)=>{
   if(user.isAuthenticated){
     console.log(req.body.searchInput);
-    var sqlQuery = 'select job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.j_id = Company.c_id where job_post.job_profile = "' + req.body.searchInput + '" OR job_post.job_description = "' + req.body.searchInput + '" OR job_post.location = "' + req.body.searchInput + '" OR job_post.salary = "' + req.body.searchInput + '" OR Company.C_name = "' + req.body.searchInput + '" ;';
+    var sqlQuery = 'select job_post.job_profile, job_post.job_description, job_post.apply_by, job_post.location, job_post.salary, Company.C_name from job_post inner join Company on job_post.j_id = Company.c_id where job_post.job_profile like "%' + req.body.searchInput + '%" OR job_post.job_description like "%' + req.body.searchInput + '%" OR job_post.location like "%' + req.body.searchInput + '%" OR job_post.salary like "%' + req.body.searchInput + '%" OR Company.C_name like "%' + req.body.searchInput + '%" ;';
     // var sqlQuery1= 'select * from applied;'
     if( ((req.body.searchInput === undefined) || (req.body.searchInput === '')) ){
       res.redirect("/job_listing");
@@ -236,6 +241,7 @@ app.post("/job_listing", (req,res)=>{
     //console.log(req.body.applybutton);
     //console.log(JSON.parse(req.body.applybutton));
     if(tryParseJSONObject(req.body.applybutton)){
+      console.log(req.body.applybutton);
       var sqlQueryInsert = 'select j_id, c_id from job_post where job_post.job_profile = "' + JSON.parse(req.body.applybutton).job_profile + '" AND job_post.job_description="' + JSON.parse(req.body.applybutton).job_description + '" AND job_post.location="' + JSON.parse(req.body.applybutton).location + '" AND job_post.salary="' + JSON.parse(req.body.applybutton).salary + '"; '
       //console.log(sqlQueryInsert);
       myConnection.query(sqlQueryInsert, function(err,rows,fields){
@@ -434,7 +440,7 @@ app.post("/recruiterForm", (req,res)=>{
 app.get("/profile_listing",(req,res)=>{
   if(user.isAuthenticated){
     const sqlQuery1 = "SELECT * from job_seeker_profile JOIN Experience ON job_seeker_profile.exp_id = Experience.exp_id JOIN education ON job_seeker_profile.ed_id = education.ed_id JOIN skill_set ON job_seeker_profile.skill_id = skill_set.skill_id WHERE job_seeker_profile.email  IN  (select email from applied where c_id IN (select C_id from Company where recruiter_email = '"  + user.userEmail +  "'));"
-    console.log(sqlQuery1);
+    //console.log(sqlQuery1);
 
     myConnection.query(sqlQuery1,function(err,result){
       if(!err){
@@ -454,20 +460,19 @@ app.get("/profile_listing",(req,res)=>{
 app.post("/profile_listing", (req,res)=>{
   if(user.isAuthenticated){
 
-  console.log(req.body.searchInput);
+  //console.log(req.body.searchInput);
+  const sqlQuery2 = 'SELECT * from job_seeker_profile JOIN Experience ON job_seeker_profile.exp_id = Experience.exp_id JOIN education ON job_seeker_profile.ed_id = education.ed_id JOIN skill_set ON job_seeker_profile.skill_id = skill_set.skill_id WHERE job_seeker_profile.email  IN  (select email from applied where c_id IN (select C_id from Company where recruiter_email = "'  + user.userEmail +  '")) WHERE Experience.current_job like "%' + req.body.searchInput + '%" OR Experience.company_name like "%' + req.body.searchInput + '%" OR Experience.location like "%' + req.body.searchInput + '%" OR education.degree like "%' + req.body.searchInput + '%" OR education.major like "%' + req.body.searchInput + '%" OR education.university = "%' + req.body.searchInput + '%" OR education.cgpa like "%' + req.body.searchInput + '%" OR education.percent like "%' + req.body.searchInput + '%" OR education.batch like "%' + req.body.searchInput + '%";';
 
-  const sqlQuery2 = 'SELECT * from job_seeker_profile JOIN Experience ON job_seeker_profile.exp_id = Experience.exp_id JOIN education ON job_seeker_profile.ed_id = education.ed_id JOIN skill_set ON job_seeker_profile.skill_id = skill_set.skill_id WHERE job_seeker_profile.email  IN  (select email from applied where c_id IN (select C_id from Company where recruiter_email = "'  + user.userEmail +  '")) WHERE Experience.current_job = "' + req.body.searchInput + '" OR Experience.company_name="' + req.body.searchInput + '" OR Experience.location = "JSSSTU" OR education.degree = "' + req.body.searchInput + '" OR education.major="' + req.body.searchInput + '" OR education.university="' + req.body.searchInput + '" OR education.cgpa="' + req.body.searchInput + '" OR education.percent="' + req.body.searchInput + '" OR education.batch="' + req.body.searchInput + '";';
-
-  console.log(sqlQuery2);
+  //console.log(sqlQuery2);
 
   if(req.body.searchInput === undefined || req.body.searchInput === ''){
-    red.redirect("/profile_listing");
+    res.redirect("/profile_listing");
   }
   else{
     myConnection.query(sqlQuery2,function(err,result){
       if(!err){
         console.log(result);
-        res.render("profile_listing", {
+        res.write("profile_listing", {
           rows : result
         });
       }else{
@@ -475,12 +480,85 @@ app.post("/profile_listing", (req,res)=>{
       }
     })
   }
-
   }else{
     res.send("<h1>Not Signed in.</h1>");
   }
-
 });
+
+app.post("/delete", function(req,res){
+
+if(user.isAuthenticated){
+
+  console.log("accept button ; " + req.body.acceptbutton);
+  console.log("reject button ; " + req.body.rejectbutton);
+    if(tryParseJSONObject(req.body.rejectbutton)){
+      console.log(JSON.parse(req.body.rejectbutton));
+      var jobSeekerMail = JSON.parse(req.body.rejectbutton).email;
+      console.log(jobSeekerMail);
+      var jobCreaterMail = user.userEmail;
+      var companyID = "select C_id from Company where recruiter_email = '" + jobCreaterMail + "';";
+      console.log(companyID);
+      myConnection.query(companyID, function(err, result){
+          if(!err){
+            console.log(result);
+            var jobID = "select j_id from job_post where c_id = "+ result[0].C_id + ";";
+            console.log(jobID);
+            myConnection.query(jobID, function(err1, result3){
+              if(!err){
+                console.log(result3);
+              }else{
+                console.log(err1);
+              }
+              var cid = result[0].C_id;
+              var jid = result3[0].j_id;
+              console.log("cid : " + cid + " jid : " + jid);
+              var deleteQuery = "delete from applied where  email = '" + jobSeekerMail + "' and job_id = " + jid + " and c_id = " + cid + ";";
+              myConnection.query(deleteQuery, function(err, res2){
+                if(!err){
+                  console.log("SUCCESSFULLY Deleted from applied table : " + jobSeekerMail);
+                  res.redirect("/profile_listing");
+                //res.redirect(req.get('referer'));
+                }
+              })
+            });
+          }else{
+            console.log(err);
+          }
+      })
+    }
+
+    if(tryParseJSONObject(req.body.acceptbutton)){
+
+        var transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'Recruiter.JobSpace@gmail.com',
+            pass: 'jobspace*123'
+          }
+        });
+        //'Recruiter.JobSpace@gmail.com'
+        //jobSeekerMail
+        var mailOptions = {
+          from: 'Recruiter.JobSpace@gmail.com',
+          to: jobSeekerMai,
+          subject: 'Application Approved',
+          text: 'hi ' + JSON.parse(req.body.acceptbutton).name + ', your Application has been approved. '
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+
+    }
+}else{
+  res.send("Not Signed in");
+}
+
+})
 
 app.get("/profile",(req,res)=>{
   if(user.isAuthenticated)
@@ -538,7 +616,7 @@ app.get("/profile",(req,res)=>{
               resultProfile.worked_for = result2[0].company_name;
               resultProfile.worked_till = result2[0].end_date;
             }
-            else 
+            else
             console.log(err);
           });
 
@@ -571,4 +649,3 @@ app.get("/profile",(req,res)=>{
 app.get("/about",(req,res)=>{
   res.render("about");
 })
-
