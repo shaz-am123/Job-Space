@@ -15,6 +15,14 @@
     <title>JOB SPACE-A job portal for graduates</title>
 	<link href="/css/profile_listing.css" rel="stylesheet">
     </head>
+    <style>
+        .applybutton{
+            display: flex;
+            flex-direction: row;
+            align-items:center;
+            justify-content: space-evenly;
+        }
+    </style>
 <body>
     <%- include('header.ejs')%>
     <div class="wrap">
@@ -50,7 +58,7 @@
              <div class="rest">
                 <div class="salary"><div class="head__Salary">CV</div><div class="salary_num">Link</div></div>
              </div>
-             <div class="applybutton">
+             <div class="applybutton" >
                  <button type = "submit" value = "<%=JSON.stringify(rows[count])%>" name="acceptbutton" class="apply">Accept</button>
 							 </br>
 								 <button type = "submit" value = "<%=JSON.stringify(rows[count])%>" name="rejectbutton" class="apply">Reject</button>

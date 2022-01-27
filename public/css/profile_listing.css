@@ -42,7 +42,7 @@
   }
 
   .list__job{
-      background-color: #FAFAFA;
+      /* background-color: #FAFAFA; */
       position: absolute;
       top: 15%;
       left:10%;
