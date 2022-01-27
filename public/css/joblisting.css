@@ -6,7 +6,7 @@
   }
 
   .searchTermi{
-    width: 100% !important; 
+    width: 100% !important;
     border: 3px solid #00B4CC !important;
     border-right: none !important;
     /* padding: 5px  !important; */
@@ -21,7 +21,9 @@
   .searchTerm:focus{
     color: #00B4CC;
   }
-
+.applied{
+  background-color: green !important;
+}
   .searchButton {
     width: 40px  !important;
     height: 42px  !important;

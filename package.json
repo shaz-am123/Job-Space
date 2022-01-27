@@ -14,8 +14,11 @@
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "mysql": "^2.18.1",
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15",
     "path": "^0.12.7"
   },
   "repository": {
@@ -25,8 +28,5 @@
   "bugs": {
     "url": "https://github.com/shaz-am123/Job-Space/issues"
   },
-  "homepage": "https://github.com/shaz-am123/Job-Space#readme",
-  "devDependencies": {
-    "nodemon": "^2.0.15"
-  }
+  "homepage": "https://github.com/shaz-am123/Job-Space#readme"
 }
