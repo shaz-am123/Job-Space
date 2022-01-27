@@ -4,6 +4,7 @@
   "description": "Dbms Project",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shubham Prasad",
@@ -15,7 +16,6 @@
     "express": "^4.17.1",
     "md5": "^2.3.0",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.15",
     "path": "^0.12.7"
   },
   "repository": {
@@ -26,5 +26,7 @@
     "url": "https://github.com/shaz-am123/Job-Space/issues"
   },
   "homepage": "https://github.com/shaz-am123/Job-Space#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
