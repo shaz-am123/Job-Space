@@ -190,11 +190,15 @@ app.get("/job_listing",(req,res)=>{
         if(!err){
           //console.log(rows);
           var query2 = "select * from applied where email = '" + user.userEmail + "';";
-          myConnection.query(query2, function(err, rows1, fields){
-            res.render("joblisting", {
-              rows: rows,
-              rows1 : rows1
-            });
+          myConnection.query(query2, function(err1, rows1, fields1){
+            if(!err1){
+              res.render("joblisting", {
+                rows: rows,
+                rows1 : rows1
+              });
+            }else{
+              console.log(err1);
+            }
           });
         }
         else{
@@ -217,9 +221,18 @@ app.post("/job_listing", (req,res)=>{
       myConnection.query(sqlQuery, function(err, rows, fields){
         if(!err){
           //console.log(rows);
-          res.render("joblisting", {
-            rows: rows
-          });
+          var query2 = "select * from applied where email = '" + user.userEmail + "';";
+          myConnection.query(query2, function(err2, rows1, fields2){
+            if(!err2){
+              res.render("joblisting", {
+                rows: rows,
+                rows1 : rows1
+              });
+            }else{
+              console.log(err2);
+            }
+          })
+
         }
         else{
           console.log(err);
