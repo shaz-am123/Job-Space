@@ -1,15 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOB SPACE-A job portal for graduates</title>
+    <link rel="stylesheet" href="../public/css/recruiterProfile.css" type="test/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>    
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+
+</head>
+<style>
+    .ProfileWhole{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.ProfileWhole .collection hr{
+    border: 0; 
+  height: 1px; 
+  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0); 
+}
+
+</style>
 <%-include('header.ejs') %>
-<div class="container">
-    <h3>Name: <%=details.name%></h3>
-    <h3>Email: <%=details.email%></h3>
-    <h3>Profile Type: <%=details.profileType%></h3>
-    <h3>Work Experience-> has worked as: <%=details.worked_as%></h3>
-    <h3>Worked for: <%=details.worked_for%></h3>
-    <h3>Worked Till: <%=JSON.stringify(details.worked_till).slice(1,11)%></h3>
-    <h3>CGPA: <%=details.cgpa%></h3>
-    <h3>Degree: <%=details.degree%></h3>
-    <h3>Major: <%=details.major%></h3>
-    <h3>University: <%=details.university%></h3>
-    <h3>Batch: <%=details.batch%></h3>
+<div class="ProfileWhole">
+    <h3>My Jobseeker Profile</h3>
+    <ul class="collection">
+        <blockquote><li class="collection-item"><strong>Name:</strong> <%=details.name%></li></blockquote>
+        <hr/>
+        <blockquote><li class="collection-item"><strong>Email:</strong> <%=details.email%></li></blockquote>
+        <hr/>
+            <blockquote><li class="collection-item"><strong>Profile Type: </strong><%=details.profileType%></li></blockquote>
+            </ul>
+            <h3>Work Experience</h3>
+            <ul class="collection">
+                <blockquote><li class="collection-item"><strong>has worked as:  </strong><%=details.worked_as%></li></blockquote>
+                <hr/>
+                    <blockquote><li class="collection-item"><strong>Worked for:</strong> <%=details.worked_for%></li></blockquote>
+                    <hr/>
+                        <blockquote><li class="collection-item"><strong>Worked Till:</strong> <%=JSON.stringify(details.worked_till).slice(1,11)%></li></blockquote>
+                    </ul>
+                    <h3>Education Experience</h3>
+                    <ul class="collection">
+                            <blockquote><li class="collection-item"><strong>CGPA:</strong> <%=details.cgpa%></li></blockquote>
+                            <hr/>
+                            <blockquote><li class="collection-item"><strong>Degree:</strong> <%=details.degree%></li></blockquote>
+                            <hr/>
+                                <blockquote><li class="collection-item"><strong>Major:</strong> <%=details.major%></li></blockquote>
+                                <hr/>
+                                <blockquote><li class="collection-item"><strong>University:</strong> <%=details.university%></li></blockquote>
+                                <hr/>
+                                    <blockquote><li class="collection-item"><strong>Batch:</strong> <%=details.batch%></li></blockquote>
+
+      </ul>
 </div>
 
