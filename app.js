@@ -660,5 +660,8 @@ app.get("/profile",(req,res)=>{
 })
 
 app.get("/about",(req,res)=>{
-  res.render("about");
+  if(user.isAuthenticated)
+  {
+    res.render("about");
+  }
 })
