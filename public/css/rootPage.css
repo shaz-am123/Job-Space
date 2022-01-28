@@ -109,6 +109,7 @@ a:hover {
 }
 /* Community */
 .communitywhole{
+  text-align: center;
   padding:3rem;
   margin: 8vh 0 5vh 0;
 }
@@ -121,6 +122,12 @@ a:hover {
   display: flex;
   justify-content: space-around;
 }
+
+.communityimages img{
+  width: 14%;
+  margin: 2%;
+}
+
 /* Member */
 .memheading{
   display:flex;
