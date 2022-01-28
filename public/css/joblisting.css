@@ -49,13 +49,13 @@
       top:20%;
       left:10%;
       display: grid;
-      grid-template-rows: 1fr;
+      grid-template-rows: 2fr;
   }
   .job__card{
     background-color: white;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 10px;
-    width:50rem;
+    width:40rem;
     padding: 1rem 3rem;
     /* margin-bottom: 2rem; */
     display: flex;
@@ -69,6 +69,12 @@
   .headjob{
       display: flex;
       flex-direction: column;
+  }
+  .parentjob{
+    display: grid;
+grid-template-columns: repeat(2, 1fr);
+grid-column-gap: 10px;
+grid-row-gap: 10px;
   }
   .companylogo{
       width: 5rem;

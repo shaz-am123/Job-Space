@@ -22,6 +22,9 @@
             align-items:center;
             justify-content: space-evenly;
         }
+				.cv img{
+					width: 2rem;
+				}
     </style>
 <body>
     <%- include('header.ejs')%>
@@ -38,6 +41,8 @@
      <div class="list__job">
 
 <% var count = 0 ; %>
+<div class="parentjob">
+
 <% rows.forEach(function(row){ %>
 	 <form class="applybutton" action="/delete" method="post">
          <div class="job__card">
@@ -56,7 +61,7 @@
                  <div class="location"><div class="head__loca">Skill Set</div><div class="Locationtext"><%=row.skill_set_name%></div></div>
              </div>
              <div class="rest">
-                <div class="salary"><div class="head__Salary">CV</div><div class="salary_num"><%=row.cv%></div></div>
+                <div class="salary"><div class="head__Salary">CV</div><div class="salary_num"><a target="_blank" href="<%=row.cv%>" class="cv"><img src="/images/cv.png"></img> </a></div></div>
              </div>
              <div class="applybutton" >
                  <button type = "submit" value = "<%=JSON.stringify(rows[count])%>" name="acceptbutton" class="apply">Accept</button>
@@ -67,6 +72,7 @@
 				 </form>
 				 <%count = count + 1 ; %>
          <% }); %>
+			 </div>
      </div>
 </body>
 </html>

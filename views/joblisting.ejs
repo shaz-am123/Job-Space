@@ -36,6 +36,7 @@
          <div class="list__job">
 <% var count = 0 ; %>
 <% console.log(rows)%>
+<div class="parentjob">
 <% rows1.forEach(function(row1){ %>
 	<% rows.forEach(function(row){ %>
 		<% if(row1.job_id==row.j_id){%>
@@ -67,35 +68,40 @@
  						<%}%>
 						<% }); %>
 						<% }); %>
+					</div>
+						<div class="parentjob">
 
 						<% rows.forEach(function(row){ %>
 								<% if(row.j_id!=0){%>
-							<form class="applybutton" action="/job_listing" method="post">
-												<div class="job__card">
-														<div class="headimg">
-																<div class="head__job">
-																		<div id = "rjobprof" class="desig"><%=row.job_profile%></div>
-																		<div id = "rcname" class="company"><%=row.C_name%></div>
-																</div>
-																<img class="companylogo" src="https://i.postimg.cc/vBtJxJfz/Whats-App-Image-2021-11-16-at-1-01-25-PM.jpg" alt=""/>
-														</div>
-														<div class="description">
-																<div class="description__head">Description</div>
-																<div id = "rjdesc" class="desction__actual"><%=row.job_description%></div>
-														</div>
-														<div class="rest">
-																<div class="salary"><div class="head__Salary">Salary</div><div id = "rsalary" class="salary_num">₹<%=row.salary%></div></div>
-																<div class="duration"><div class="head__Applyby">Apply By</div><div id = "rapply" class="applyby"><%=JSON.stringify(row.apply_by).slice(1,11)%></div></div>
-																<div class="location"><div class="head__loca">Location</div><div id = "rloc" class="Locationtext"><%=row.location%></div></div>
-														</div>
-														<div class="applybutton">
-																<button id="applyId" type = "submit" value = "<%=JSON.stringify(rows[count])%>" name="applybutton" class="apply">Apply</button>
-														</div>
-												</div>
-						 </form>
+										<form class="applybutton" action="/job_listing" method="post">
+															<div class="job__card">
+																	<div class="headimg">
+																			<div class="head__job">
+																					<div id = "rjobprof" class="desig"><%=row.job_profile%></div>
+																					<div id = "rcname" class="company"><%=row.C_name%></div>
+																			</div>
+																			<img class="companylogo" src="https://i.postimg.cc/vBtJxJfz/Whats-App-Image-2021-11-16-at-1-01-25-PM.jpg" alt=""/>
+																	</div>
+																	<div class="description">
+																			<div class="description__head">Description</div>
+																			<div id = "rjdesc" class="desction__actual"><%=row.job_description%></div>
+																	</div>
+																	<div class="rest">
+																			<div class="salary"><div class="head__Salary">Salary</div><div id = "rsalary" class="salary_num">₹<%=row.salary%></div></div>
+																			<div class="duration"><div class="head__Applyby">Apply By</div><div id = "rapply" class="applyby"><%=JSON.stringify(row.apply_by).slice(1,11)%></div></div>
+																			<div class="location"><div class="head__loca">Location</div><div id = "rloc" class="Locationtext"><%=row.location%></div></div>
+																	</div>
+																	<div class="applybutton">
+																			<button id="applyId" type = "submit" value = "<%=JSON.stringify(rows[count])%>" name="applybutton" class="apply">Apply</button>
+																	</div>
+															</div>
+									 </form>
+
 						 <%count = count + 1 ; %>
 						 						<%}%>
 												<% }); %>
+											</div>
+
          </div>
     </body>
 </html>

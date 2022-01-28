@@ -8,7 +8,7 @@
 }
 
   .searchTerm {
-    width: 100% !important; 
+    width: 100% !important;
     border: 3px solid #00B4CC !important;
     border-right: none !important;
     /* padding: 5px  !important; */
@@ -20,6 +20,12 @@
 
   .searchTerm:focus{
     color: #00B4CC;
+  }
+  .parentjob{
+    display: grid;
+grid-template-columns: repeat(2, 1fr);
+grid-column-gap: 10px;
+grid-row-gap: 10px;
   }
 
   .searchButton {
@@ -53,7 +59,7 @@
     background-color: white;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 10px;
-    width:50rem;
+    width:40rem;
     padding: 1rem 3rem;
     margin-bottom: 2rem;
     display: flex;
