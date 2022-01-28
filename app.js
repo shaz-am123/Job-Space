@@ -541,7 +541,7 @@ if(user.isAuthenticated){
     }
 
     if(tryParseJSONObject(req.body.acceptbutton)){
-
+        var jobSeekerMail2 = JSON.parse(req.body.acceptbutton).email;
         var transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
@@ -550,10 +550,10 @@ if(user.isAuthenticated){
           }
         });
         //'Recruiter.JobSpace@gmail.com'
-        //jobSeekerMail
+        console.log(jobSeekerMail2);
         var mailOptions = {
           from: 'Recruiter.JobSpace@gmail.com',
-          to: jobSeekerMai,
+          to: jobSeekerMail2,
           subject: 'Application Approved',
           text: 'hi ' + JSON.parse(req.body.acceptbutton).name + ', your Application has been approved. '
         };
