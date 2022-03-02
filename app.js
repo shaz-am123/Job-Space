@@ -394,7 +394,7 @@ app.get('/',(req,res)=>{
     res.sendFile(__dirname+"/templates/rootPage.html");
 })
 
-app.listen(3000,()=>{
+app.listen(3000 || process.env.PORT,()=>{
     console.log("Server up and running successfully at port 3000");
 
 })
