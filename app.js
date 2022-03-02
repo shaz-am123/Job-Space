@@ -35,11 +35,11 @@ function tryParseJSONObject (jsonString){
 ////////////////////////////////////////////////
 
 var myConnection = mysql.createConnection({
-    host: "bvpspd0l24sdpal9h7fl-mysql.services.clever-cloud.com",
-    user: "ulfhcsbangdhtfis",
-    password: "80onmpmkdlIpowx9f5mm",
-    database: "bvpspd0l24sdpal9h7fl",
-    multipleStatements: true
+  host: process.env.DB_URL,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_DATABASE,
+  multipleStatements: true
 });
 
 myConnection.connect((err)=>{
