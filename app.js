@@ -394,10 +394,6 @@ app.get('/',(req,res)=>{
     res.sendFile(__dirname+"/templates/rootPage.html");
 })
 
-app.listen(3000 || process.env.PORT,()=>{
-    console.log("Server up and running successfully at port 3000");
-
-})
 
 app.get("/recruiterForm", (req,res)=>{
   if(user.isAuthenticated){
@@ -664,4 +660,9 @@ app.get("/about",(req,res)=>{
   {
     res.render("about");
   }
+})
+
+app.listen(process.env.PORT||3000,function()
+{
+  console.log("server is running");
 })
