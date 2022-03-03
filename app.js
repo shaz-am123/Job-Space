@@ -359,7 +359,7 @@ app.post("/StudentForm",(req,res)=>{
           }
         })
       }else{
-        console.log("error occurred");
+        console.log("error has occurred");
       }
     })
     myConnection.query(sqlQuery6, function(err, result){
