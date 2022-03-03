@@ -662,7 +662,8 @@ app.get("/about",(req,res)=>{
   }
 })
 
-app.listen(process.env.PORT||3000, function()
+var serverPort=3000;
+app.listen(process.env.PORT||serverPort, function()
 {
   console.log("server is running");
 })
