@@ -22,6 +22,7 @@ To deploy this project run
   node app.js
 ```
 View the web application on http://localhost:3000/
+
 View the deployed heroku app on https://jobspace101.herokuapp.com/
 
 ## Screenshots
