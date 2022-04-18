@@ -7,6 +7,7 @@ A platform which makes job recruitment easy for the job seeker and employer.
 
 
 ## Deployment
+
 To deploy this project run
 - Git clone this app
 
@@ -25,7 +26,9 @@ View the web application on http://localhost:3000/
 
 View the deployed heroku app on https://jobspace101.herokuapp.com/
 
+
 ## Screenshots
+
 - Landing page
 
 ![image](https://user-images.githubusercontent.com/67041961/163826621-55f3897f-ce37-4c13-a788-8ec66bab97bd.png)
